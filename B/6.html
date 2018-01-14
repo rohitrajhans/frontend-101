@@ -118,22 +118,24 @@
 
 
 <script type="text/javascript">
+
+	var name = document.getElementById("item-name").value;
 	function addItem() {
 		var element = document.getElementById("item-list");
 		var create = document.createElement("li");
-		var name = document.getElementById("item-name").value;
 		create.innerHTML = name;
 		element.appendChild(create);
 	};
 
 		if (typeof(Storage) !== "undefined") {
-			localStorage.setItem("name", name);
+			localStorage.setItem("item-name", name);
 		} 
 		else {
 		// Sorry! No Web Storage support
 		}
 
-		var name=localStorage.getItem("name");
+		alert( "name = " + localStorage.getItem("item-name")); 
+
 
 </script>	
 
