@@ -102,7 +102,6 @@
 				<li> CSS </li>
 				<li> Javascript </li>
 				<li> Angular </li>
-				<li> React.js </li>
 			</ul>
 		</section>
 
@@ -118,7 +117,15 @@
 
 
 <script type="text/javascript">
-	var j=0;
+
+
+	var itemStore;
+	if(JSON.parse(localStorage.getItem("item-name")) == null) {
+		itemStore = [];
+	}
+	else {
+		itemStore = JSON.parse(localStorage.getItem('item-name'));
+	}
 	function addItem() {
 		var name = document.getElementById("item-name").value;
 		var element = document.getElementById("item-list");
@@ -126,19 +133,23 @@
 		create.innerHTML = name;
 		element.appendChild(create);
 		
-		var itemStore = [];
-			
-		itemStore[j] = name;
+		
+		itemStore.push(name);
+
+		
+		localStorage.setItem("item-name", JSON.stringify(itemStore));
 				
-		if (typeof(Storage) !== "undefined") {
+	};
+
+
+
+	/*if (typeof(Storage) !== "undefined") {
 			localStorage.setItem("item-name", JSON.stringify(itemStore));
 		} 
 		else {
-		// Sorry! No Web Storage support
-		}
-	
-		j++;
-	};
+		console.log("web storage not supported");
+		}*/
+
 
 	function append() {
 		var element = document.getElementById("item-list");
