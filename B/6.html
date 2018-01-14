@@ -118,24 +118,36 @@
 
 
 <script type="text/javascript">
-
-	var name = document.getElementById("item-name").value;
+	var j=0;
 	function addItem() {
+		var name = document.getElementById("item-name").value;
 		var element = document.getElementById("item-list");
 		var create = document.createElement("li");
 		create.innerHTML = name;
 		element.appendChild(create);
-	};
-
+		
+		var itemStore = [];
+			
+		itemStore[j] = name;
+				
 		if (typeof(Storage) !== "undefined") {
-			localStorage.setItem("item-name", name);
+			localStorage.setItem("item-name", JSON.stringify(itemStore));
 		} 
 		else {
 		// Sorry! No Web Storage support
 		}
+	
+		j++;
+	};
 
-		alert( "name = " + localStorage.getItem("item-name")); 
+	function append() {
+		var element = document.getElementById("item-list");
+		var create = document.createElement("li");
+		create.innerHTML = JSON.parse(localStorage.getItem("item-name"));
+		element.appendChild(create);
+	}
 
+	append();
 
 </script>	
 
