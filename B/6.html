@@ -106,10 +106,10 @@
 		</section>
 
 		<section class="add">
-			<span>
+			<form type="submit" method="post"> 
 			<input type="text" id="item-name" name="item-name" placeholder="Item Name">
-			<button onclick="addItem()" type="button" name="submit" id="button"> <span>Add Item </span></button>
-			</span>
+			<button onclick="addItem()" type="button" name="submit" id="button"span> <span>Add Item </span></button>
+			</form>
 		</section>
 	
 
@@ -138,7 +138,7 @@
 
 		
 		localStorage.setItem("item-name", JSON.stringify(itemStore));
-				
+
 	};
 
 
@@ -158,7 +158,18 @@
 		element.appendChild(create);
 	}
 
-	append();
+	if( JSON.parse(localStorage.getItem("item-name")) != null ) 	{
+		append();
+	}
+
+	document.getElementById("item-name").addEventListener ("keydown" , function ( event ) {
+		if ( event.keyCode == 13) {
+		addItem();	
+		console.log("you enterd");
+		}
+	});
+	
+
 
 </script>	
 
