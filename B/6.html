@@ -58,18 +58,19 @@
 			box-shadow: rgba();
 		}
 
-		#button {
+		#button, #button1 {
 			padding: 2vh 1vw;
 			font-size: 2vh;
 			background: #e7e7e7;
 		}
-		#button span {
+		#button span, #button1 span {
   		cursor: pointer;
   		display: inline-block;
  		position: relative;
   		transition: 0.5s;
 		}
 
+		/* Double Arrow Animation after button */
 		#button span:after {
   			content: '\00bb';
   			position: absolute;
@@ -87,6 +88,37 @@
 			right: 0;
 		}
 
+
+		#button1 span:after {
+  			content: 'x';
+  			position: absolute;
+  			opacity: 0;
+  			top: 0;
+  			right: -20px;
+  			transition: 0.5s;
+		}
+
+		#button1:hover span {
+		  padding-right: 20px;
+		}
+		#button1:hover span:after {
+		  	opacity: 1;
+			right: 0;
+		}
+
+
+
+		/* Adding remove option */
+
+		/*li:after {
+			content: " x ";
+			cursor: pointer;
+			
+			position: absolute;
+			right: 10px;
+		}*/
+
+
 	</style>
 </head>
 <body>
@@ -98,17 +130,18 @@
 
 		<section class="list">
 			<ul id="item-list">
-				<li> HTML </li>
+				<!-- <li> HTML </li>
 				<li> CSS </li>
 				<li> Javascript </li>
-				<li> Angular </li>
+				<li> Angular </li> -->
 			</ul>
 		</section>
 
 		<section class="add">
 			<form type="submit" method="post"> 
 			<input type="text" id="item-name" name="item-name" placeholder="Item Name">
-			<button onclick="addItem()" type="button" name="submit" id="button"span> <span>Add Item </span></button>
+			<button onclick="addItem()" type="button" name="submit" id="button"> <span>Add Item </span></button>
+			<button onclick="clearAll()" type="button" name="submit" id="button1"> <span> Clear All </span> </button>
 			</form>
 		</section>
 	
@@ -134,42 +167,62 @@
 		element.appendChild(create);
 		
 		
-		itemStore.push(name);
+		itemStore.push(name);    /* pushing name value to end of array that stores all other local storage values */
 
 		
-		localStorage.setItem("item-name", JSON.stringify(itemStore));
+		localStorage.setItem("item-name", JSON.stringify(itemStore));  /* stores name value as a JSON object*/
 
 	};
 
 
 
-	/*if (typeof(Storage) !== "undefined") {
-			localStorage.setItem("item-name", JSON.stringify(itemStore));
-		} 
-		else {
-		console.log("web storage not supported");
-		}*/
-
-
+	/* To append saved data to list */
 	function append() {
-		var element = document.getElementById("item-list");
-		var create = document.createElement("li");
-		create.innerHTML = JSON.parse(localStorage.getItem("item-name"));
-		element.appendChild(create);
+
+		for ( var i=0; i< JSON.parse(localStorage.getItem("item-name")).length; i++) {
+			var element = document.getElementById("item-list");
+			var create = document.createElement("li");
+			var add = JSON.parse(localStorage.getItem("item-name"))[i];   /* Accessing each element of local storage and appending it */
+			create.innerHTML = add;
+			element.appendChild(create);
+		}	
 	}
 
 	if( JSON.parse(localStorage.getItem("item-name")) != null ) 	{
 		append();
 	}
 
+
+
+	/* on pressing enter, adds item */
 	document.getElementById("item-name").addEventListener ("keydown" , function ( event ) {
 		if ( event.keyCode == 13) {
-		addItem();	
+		return addItem();	
 		console.log("you enterd");
 		}
 	});
 	
 
+
+
+	/* Adding a remove function */
+
+/*	function remove() {
+		var element = document.getElementById("item-list");
+		var lis = document.querySelectorAll('#item-list li');
+		for(var i=0; li=lis[i]; i++) {
+    		li.parentNode.removeChild(li);	
+		}
+	}*/
+
+	function clearAll() {
+		var lis = document.querySelectorAll('#item-list li');
+		var original = [];
+		for(var i=0; li=lis[i]; i++) {
+			li.parentNode.removeChild(li);
+			localStorage.setItem("item-name",  null);
+		}
+	}
 
 </script>	
 
